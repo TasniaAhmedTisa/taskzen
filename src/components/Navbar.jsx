@@ -1,7 +1,18 @@
 import { FcDebian } from "react-icons/fc";
 import { Link } from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
 
-const Navbar = () => {
+const Navbar = ({user}) => {
+    const auth = getAuth();
+
+    const handleLogout = async () => {
+        try {
+          await signOut(auth);
+        } catch (error) {
+          console.error("Logout failed:", error);
+        }
+      };
+
     return (
         <div className="w-full">
            
@@ -27,15 +38,8 @@ const Navbar = () => {
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
           <li><Link to={"/"}>Home</Link></li>
           <li><Link to={"/addtask"}>Add Task</Link></li>      
-          <li>
-        <details>
-          <summary>Manage Task</summary>
-          <ul className="bg-base-100 rounded-t-none p-2">
-            <li><Link to={"/update"}>Update Task</Link></li>
-            <li><Link to={"/delete"}>Delete Task</Link></li>
-          </ul>
-        </details>
-      </li>
+            <li><Link to={"/manage"}>Manage Task</Link></li>
+    
       </ul>
     </div>
     <div className="flex">
@@ -47,19 +51,22 @@ const Navbar = () => {
     <ul className="menu menu-horizontal px-1 text-lg font-bold">
     <li><Link to={"/"}>Home</Link></li>
           <li><Link to={"/addtask"}>Add Task</Link></li>       
-          <li>
-        <details>
-          <summary>Manage Task</summary>
-          <ul className="bg-base-100 rounded-t-none p-2">
-            <li><a>Update Task</a></li>
-            <li><a>Delete Task</a></li>
-          </ul>
-        </details>
-      </li>
+          
+            <li><Link to={"/manage"}>Manage Task</Link></li>
+          
       </ul>
   </div>
   <div className="navbar-end">
-    <Link to={"/login"} className="btn bg-pink-600 text-white">Login</Link>
+    {user? (
+        <button className="btn bg-pink-600 text-white" onClick={handleLogout}>
+        Logout
+      </button>
+    ):(
+        <Link to={"/login"} className="btn bg-pink-600 text-white">
+            Login</Link>
+
+
+    )}
   </div>
 </div>
         </div>
