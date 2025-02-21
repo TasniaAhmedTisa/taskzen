@@ -5,6 +5,7 @@ import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./firebase";
 import Banner from "./components/Banner";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 // Initialize Firebase
 initializeApp(firebaseConfig);
@@ -64,6 +65,7 @@ const App = () => {
         </button>
         </>
       )}
+      <Footer></Footer>
     </div>
   );
 };

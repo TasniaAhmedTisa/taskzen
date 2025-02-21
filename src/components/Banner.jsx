@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const Banner = () => {
   return (
-    <div className="w-full relative overflow-hidden shadow-lg h-64 sm:h-80 md:h-96">
+    <div className="w-full relative overflow-hidden shadow-lg h-64 sm:h-80 md:h-96 lg:h-[450px] xl:h-[550px]">
       <div
         className="absolute inset-0 bg-fixed bg-center bg-cover brightness-75"
         style={{
