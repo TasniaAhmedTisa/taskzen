@@ -33,8 +33,8 @@ const Manage = () => {
   return (
     <div>
       <Navbar user={user} />
-      <div className="p-4">
-        <h1 className="text-3xl italic font-serif m-5">Task List</h1>
+      <div className="p-4 bg-red-200">
+        <h1 className="text-4xl italic font-serif m-5 text-center font-bold">Task List</h1>
         <TaskBoard user={user} />
         {!user && (
           <button className="btn bg-pink-600 text-white mt-4" onClick={handleLogin}>

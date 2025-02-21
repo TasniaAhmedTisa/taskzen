@@ -11,12 +11,7 @@ const App = () => {
       <Navbar></Navbar>
       
         <Banner></Banner>
-        <p className="text-sm md:text-lg lg:text-xl m-3 drop-shadow-md">
-          Manage your tasks efficiently with TaskZen. Plan, track, and achieve your goals seamlessly.
-        </p>
-        {/* <button className="btn bg-pink-600 text-white mt-4" onClick={handleLogin}>
-          Sign in with Google
-        </button> */}
+        
     
   
       <Footer></Footer>

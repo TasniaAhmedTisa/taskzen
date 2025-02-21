@@ -35,7 +35,7 @@ const Navbar = ({user}) => {
       </div>
       <ul
         tabIndex={0}
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow font-serif">
           <li><Link to={"/"}>Home</Link></li>
           <li><Link to={"/addtask"}>Add Task</Link></li>      
             <li><Link to={"/manage"}>Manage Task</Link></li>
@@ -48,7 +48,7 @@ const Navbar = ({user}) => {
 
       </div>    </div>
   <div className="navbar-center hidden lg:flex">
-    <ul className="menu menu-horizontal px-1 text-lg font-bold">
+    <ul className="menu menu-horizontal px-1 text-lg font-bold font-serif">
     <li><Link to={"/"}>Home</Link></li>
           <li><Link to={"/addtask"}>Add Task</Link></li>       
           

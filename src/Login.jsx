@@ -110,7 +110,7 @@ const Login = () => {
                     className='mb-4'
                     label='Remember password'
                   />
-              <MDBBtn type="submit" size='lg' style={{ width: '80%' }}>
+              <MDBBtn type="submit" size='lg' style={{ width: '80%' }} className='btn btn-disabled'>
               Login
               </MDBBtn>
               </form>
