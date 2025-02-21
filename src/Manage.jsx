@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Router = () => {
+const Manage = () => {
     return (
         <div>
-            
+            Manage
         </div>
     );
 };
 
-export default Router;
+export default Manage;
