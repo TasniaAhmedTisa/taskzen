@@ -3,7 +3,8 @@ import TaskBoard from "./components/Task";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./firebase";
-import { FcDebian } from "react-icons/fc";
+import Banner from "./components/Banner";
+import Navbar from "./components/Navbar";
 
 // Initialize Firebase
 initializeApp(firebaseConfig);
@@ -40,28 +41,25 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center p-5 bg-red-100 py-10">
-      
+    <div className="min-h-screen flex flex-col items-center bg-red-100">
+      <Navbar></Navbar>
       {user ? (
         <>
-        <div className="flex">
-      <FcDebian className="text-6xl mr-2" />
-      <h1 className="text-5xl font-serif">TaskZen</h1>
-
-      </div>
+        
           <h1 className="text-3xl italic font-serif m-5">Task List</h1>
 
           <TaskBoard user={user} />
-          <button className="btn btn-error mt-4" onClick={handleLogout}>
+          <button className="btn bg-pink-400 mt-4" onClick={handleLogout}>
             Logout
           </button>
         </>
       ) : (
         <>
-        <img src="https://i.ibb.co.com/yFHRHnCj/task-management.jpg" alt="" className="rounded-xl max-w-3xl" />
-        <p className="text-xl italic font-serif mt-4">Easiest Way To Manage Your Task With TaskZen</p>
-
-        <button className="btn bg-violet-600 text-white mt-4" onClick={handleLogin}>
+        <Banner></Banner>
+        <p className="text-sm md:text-lg lg:text-xl m-3 drop-shadow-md">
+          Manage your tasks efficiently with TaskZen. Plan, track, and achieve your goals seamlessly.
+        </p>
+        <button className="btn bg-pink-600 text-white mt-4" onClick={handleLogin}>
           Sign in with Google
         </button>
         </>
