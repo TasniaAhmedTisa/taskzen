@@ -26,7 +26,7 @@ const AddTask = () => {
 
     // Send the task data to the backend
     try {
-      const response = await fetch('http://localhost:5000/tasks', {
+      const response = await fetch('https://taskzen-server.onrender.com/tasks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

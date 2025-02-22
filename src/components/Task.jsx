@@ -8,7 +8,7 @@ export default function TaskBoard({ user }) {
 
   useEffect(() => {
     if (user && user.uid) {
-      fetch(`http://localhost:5000/tasks?user=${user.uid}`)
+      fetch(`https://taskzen-server.onrender.com/tasks?user=${user.uid}`)
         .then((res) => res.json())
         .then((data) => setTasks(data))
         .catch((error) => console.error("Error fetching tasks:", error));
@@ -28,7 +28,7 @@ export default function TaskBoard({ user }) {
   // Save Edited Task to Backend
   const handleSave = async () => {
     try {
-      await fetch(`http://localhost:5000/tasks/${currentTask._id}`, {
+      await fetch(`https://taskzen-server.onrender.com/tasks/${currentTask._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(currentTask),
@@ -42,17 +42,26 @@ export default function TaskBoard({ user }) {
   };
 
   const handleDelete = async (taskId) => {
-    // Logic to delete the task
     try {
-      await fetch(`http://localhost:5000/tasks/${taskId}`, {
-        method: "DELETE",
+      // Send DELETE request to the backend to delete the task
+      const response = await fetch(`https://taskzen-server.onrender.com/tasks/${taskId}`, {
+        method: 'DELETE',
       });
-      setTasks(tasks.filter((task) => task._id !== taskId)); // Update UI after deletion
+  
+      if (response.ok) {
+        // Remove the deleted task from the local state (UI update)
+        setTasks(tasks.filter((task) => task._id !== taskId));
+        alert('Task deleted successfully!');
+      } else {
+        const result = await response.json();
+        alert('Error: ' + result.message);
+      }
     } catch (error) {
-      console.error("Error deleting task:", error);
+      console.error('Error deleting task:', error);
+      alert('Error deleting task');
     }
   };
-
+  
   if (!user) {
     return <div className="text-center p-4">Please log in to view your tasks.</div>;
   }

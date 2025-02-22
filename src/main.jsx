@@ -9,7 +9,6 @@ import {
 import App from "./App";
 import AddTask from "./AddTask";
 import Manage from "./Manage";
-import { LogIn } from "lucide-react";
 import Login from "./Login";
 
 const router = createBrowserRouter([
