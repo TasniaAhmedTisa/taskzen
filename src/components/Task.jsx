@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+
 
 export default function TaskBoard({ user }) {
   const [tasks, setTasks] = useState([]);
@@ -14,6 +16,26 @@ export default function TaskBoard({ user }) {
         .catch((error) => console.error("Error fetching tasks:", error));
     }
   }, [user]);
+
+  const handleDragEnd = async (result) => {
+    if (!result.destination) return;
+
+    const updatedTasks = [...tasks];
+    const [movedTask] = updatedTasks.splice(result.source.index, 1);
+    movedTask.category = categories[result.destination.droppableId];
+    updatedTasks.splice(result.destination.index, 0, movedTask);
+
+    try {
+      await fetch(`https://taskzen-server.onrender.com/tasks/${movedTask._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(movedTask),
+      });
+      setTasks(updatedTasks);
+    } catch (error) {
+      console.error("Error updating task category:", error);
+    }
+  };
 
   const handleEdit = (task) => {
     setCurrentTask(task);
@@ -69,50 +91,65 @@ export default function TaskBoard({ user }) {
   const categories = ["To-Do", "In Progress", "Done"];
 
   return (
-    <div className="p-4">
-      {categories.map((category) => (
-        <div key={category} className="mb-6">
-          <h2 className="text-2xl lg:text-3xl font-bold mb-2 text-pink-700">{category}</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <DragDropContext onDragEnd={handleDragEnd}>
+
+    <div className="p-4 lg:flex">
+      {categories.map((category, index) => (
+ <Droppable key={category} droppableId={index.toString()}>
+ {(provided) => (
+   <div
+     ref={provided.innerRef}
+     {...provided.droppableProps}
+     className="mb-6 border m-2 p-3 shadow-lg bg-black rounded-xl w-1/3"
+   >    
+         <h2 className="text-2xl lg:text-3xl font-bold mb-2 text-pink-700 text-center py-3">{category}</h2>
+          <div className="grid grid-cols-1 gap-4">
             {tasks
               .filter((task) => task.category === category)
-              .map((task) => (
-                <div key={task._id} className="bg-white p-4 rounded shadow">
-                  <div className="flex justify-between">
+              .map((task, taskIndex) => (
+                <Draggable key={task._id} draggableId={task._id} index={taskIndex}>
+                  {(provided) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      className="bg-white p-4 rounded shadow flex justify-between"
+                    >
                   <div>
                   <h3 className="font-bold text-xl text-blue-600">{task.title}</h3>
                   <p className="text-gray-600">{task.description}</p>
                   </div>
-                    <div>
-                      {/* Edit Button */}
-                    <button
-                      className="text-yellow-500 hover:text-yellow-600"
-                      onClick={() => handleEdit(task)}
-
-                    >
-                      <FaEdit className="text-2xl" />
-                    </button>
-
-                    {/* Delete Button */}
-                    <div>
-                    <button
-                      className="text-red-500 hover:text-red-600"
-                      onClick={() => handleDelete(task._id)}
-                    >
-                      <FaTrashAlt className="text-xl" />
-                    </button>
-                    </div>
+                  <div className="flex gap-2">
+                              <button
+                                className="text-yellow-500 hover:text-yellow-600"
+                                onClick={() => handleEdit(task)}
+                              >
+                                <FaEdit className="text-2xl" />
+                              </button>
+                              <button
+                                className="text-red-500 hover:text-red-600"
+                                onClick={() => handleDelete(task._id)}
+                              >
+                                <FaTrashAlt className="text-xl" />
+                              </button>
+                            </div>
                     </div>
                  
-                  </div>
+                  )}
+                      </Draggable>
+                    ))}
+                  {provided.placeholder}
                 </div>
-              ))}
-          </div>
+              </div>
+            )}
+          </Droppable>
+        ))}
         </div>
-      ))}
+    
+
       {/* Edit Task Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      {isModalOpen && currentTask && (
+        <div className="fixed inset-0 lg:flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
             <h2 className="text-xl font-bold mb-4">Edit Task</h2>
 
@@ -159,7 +196,7 @@ export default function TaskBoard({ user }) {
           </div>
         </div>
       )}
-    </div>
+    </DragDropContext>
   );
 }
     

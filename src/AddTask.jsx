@@ -54,7 +54,7 @@ const AddTask = () => {
       <div className="hero bg-red-100 min-h-screen">
         <div className="hero-content flex-col">
           <div className="text-center lg:text-left">
-            <h1 className="text-5xl font-bold text-center">Add Your Task</h1>
+            <h1 className="text-4xl font-bold text-center font-serif italic">Add Your Task</h1>
             <p className="py-6">
               Organize your tasks efficiently by setting categories and deadlines.
             </p>
